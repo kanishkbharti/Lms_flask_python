@@ -15,12 +15,9 @@ from flask_mail import Message
 def home():
     if current_user.is_authenticated:
         if current_user.isTeacher:
-            classroom=ClassRoom.query.filter_by(user_id=current_user.id).first()
-            if classroom:
-                username=classroom.teacher.username
-            else:
-                username=current_user.username
-            return redirect(url_for('user_posts', username=username))
+            page = request.args.get('page', 1, type=int)
+            classrooms=ClassRoom.query.filter_by(user_id=current_user.id).order_by(ClassRoom.date_posted.desc()).paginate(page=page, per_page=5)
+            return render_template('home.html', classrooms=classrooms)
         else:
             page = request.args.get('page', 1, type=int)
             classrooms = ClassRoom.query.order_by(ClassRoom.date_posted.desc()).paginate(page=page, per_page=5)
@@ -34,12 +31,9 @@ def home():
 def classroomName():
     if current_user.is_authenticated:
         if current_user.isTeacher:
-            classroom=ClassRoom.query.filter_by(user_id=current_user.id).first()
-            if classroom:
-                username=classroom.teacher.username
-            else:
-                username=current_user.username
-            return redirect(url_for('user_posts', username=username))
+            page = request.args.get('page', 1, type=int)
+            classrooms=ClassRoom.query.filter_by(user_id=current_user.id).order_by(ClassRoom.classroomName.desc()).paginate(page=page, per_page=5)
+            return render_template('home.html', classrooms=classrooms)
         else:
             page = request.args.get('page', 1, type=int)
             classrooms = ClassRoom.query.order_by(ClassRoom.classroomName.desc()).paginate(page=page, per_page=5)
@@ -53,12 +47,9 @@ def classroomName():
 def subject():
     if current_user.is_authenticated:
         if current_user.isTeacher:
-            classroom=ClassRoom.query.filter_by(user_id=current_user.id).first()
-            if classroom:
-                username=classroom.teacher.username
-            else:
-                username=current_user.username
-            return redirect(url_for('user_posts', username=username))
+            page = request.args.get('page', 1, type=int)
+            classrooms=ClassRoom.query.filter_by(user_id=current_user.id).order_by(ClassRoom.subject.desc()).paginate(page=page, per_page=5)
+            return render_template('home.html', classrooms=classrooms)
         else:
             page = request.args.get('page', 1, type=int)
             classrooms = ClassRoom.query.order_by(ClassRoom.subject.desc()).paginate(page=page, per_page=5)
@@ -155,10 +146,10 @@ def new_post():
         classroom = ClassRoom(classroomName=form.classroomName.data, subject=form.subject.data , time=form.time.data ,daysOfClasses=form.daysOfClasses.data ,  content=form.content.data, teacher=current_user)
         db.session.add(classroom)
         db.session.commit()
-        flash('Your post has been created!', 'success')
+        flash('Your Classroom has been created!', 'success')
         return redirect(url_for('home'))
-    return render_template('create_post.html', title='New Post',
-                           form=form, legend='New Post')
+    return render_template('create_post.html', title='New Classroom',
+                           form=form, legend='New Classroom')
 
 
 @app.route("/post/<int:post_id>")
@@ -189,8 +180,8 @@ def update_post(post_id):
         form.subject.data=classroom.subject
         form.time.data=classroom.time
         form.daysOfClasses.data=classroom.daysOfClasses
-    return render_template('create_post.html', title='Update Post',
-                           form=form, legend='Update Post')
+    return render_template('create_post.html', title='Update Classroom',
+                           form=form, legend='Update Classroom')
 
 
 @app.route("/post/<int:post_id>/delete", methods=['POST'])
@@ -201,7 +192,7 @@ def delete_post(post_id):
         abort(403)
     db.session.delete(classroom)
     db.session.commit()
-    flash('Your post has been deleted!', 'success')
+    flash('Your classroom has been deleted!', 'success')
     return redirect(url_for('home'))
 
 
