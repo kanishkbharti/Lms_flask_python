@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">{{ legend }}</legend>
+            <div class="form-group">
+                {{ form.classroomName.label(class="form-control-label") }}
+                {% if form.classroomName.errors %}
+                    {{ form.classroomName(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.classroomName.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.classroomName(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.subject.label(class="form-control-label") }}
+                {% if form.subject.errors %}
+                    {{ form.subject(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.subject.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.subject(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.time.label(class="form-control-label") }}
+                {% if form.time.errors %}
+                    {{ form.time(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.time.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.time(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.daysOfClasses.label(class="form-control-label") }}
+                {% if form.daysOfClasses.errors %}
+                    {{ form.daysOfClasses(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.daysOfClasses.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.daysOfClasses(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.content.label(class="form-control-label") }}
+                {% if form.content.errors %}
+                    {{ form.content(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.content.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.content(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+        </fieldset>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
+</div>
+{% endblock content %}
